@@ -45,5 +45,23 @@ export namespace LivroController {
             res.status(500).json({ message: 'falha ao buscar livro' })
         }
     };
+
+    export async function atualizarLivro (req: Request, res: Response): Promise<void> {
+        try {
+            const id: string = req.params.id;
+
+            if (!mongoose.Types.ObjectId.isValid(id)) {
+                res.status(400).json({ message: 'ID inválido' });
+            };
+            
+            const camposAtualizar: ILivro = req.body;
+
+            await Livro.findByIdAndUpdate(id, camposAtualizar);
+            res.status(200).json({ message: 'livro atualizado com sucesso'})
+        } catch (error) {
+            console.error(`Falha ao atualizar livro: ${error}`);
+            res.status(500).json({ message: 'falha ao atualizar livro' })
+        }
+    };
 }
 

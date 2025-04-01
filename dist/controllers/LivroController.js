@@ -68,4 +68,24 @@ var LivroController;
     }
     LivroController.listarLivroPorId = listarLivroPorId;
     ;
+    function atualizarLivro(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = req.params.id;
+                if (!mongoose_1.default.Types.ObjectId.isValid(id)) {
+                    res.status(400).json({ message: 'ID inválido' });
+                }
+                ;
+                const camposAtualizar = req.body;
+                yield Livro_1.Livro.findByIdAndUpdate(id, camposAtualizar);
+                res.status(200).json({ message: 'livro atualizado com sucesso' });
+            }
+            catch (error) {
+                console.error(`Falha ao atualizar livro: ${error}`);
+                res.status(500).json({ message: 'falha ao atualizar livro' });
+            }
+        });
+    }
+    LivroController.atualizarLivro = atualizarLivro;
+    ;
 })(LivroController || (exports.LivroController = LivroController = {}));
