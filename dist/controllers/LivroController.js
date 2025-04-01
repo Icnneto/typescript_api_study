@@ -13,29 +13,34 @@ exports.LivroController = void 0;
 const Livro_1 = require("../models/Livro");
 var LivroController;
 (function (LivroController) {
-    function livrosDisponiveis() {
+    function livrosDisponiveis(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const listaLivros = yield Livro_1.Livro.find({});
-                return listaLivros;
+                res.status(200).json(listaLivros);
             }
             catch (error) {
                 console.error(`Falha ao procurar livro: ${error}`);
-                throw new Error("Erro ao buscar livros");
+                res.status(500).json({ message: "Erro ao buscar livros" });
             }
         });
     }
     LivroController.livrosDisponiveis = livrosDisponiveis;
     ;
+    function inserirLivros(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const novoLivro = req.body;
+            try {
+                const livroCriado = yield Livro_1.Livro.create(novoLivro);
+                res.status(201).json({ message: 'criado com sucesso', livro: livroCriado });
+                ;
+            }
+            catch (error) {
+                console.error(`Falha ao cadastrar livro: ${error}`);
+                res.status(500).json({ message: "Erro ao buscar livros" });
+            }
+        });
+    }
+    LivroController.inserirLivros = inserirLivros;
+    ;
 })(LivroController || (exports.LivroController = LivroController = {}));
-// class LivroController {
-//     async livrosDisponiveis() {
-//         try {
-//             const listaLivros = await Livro.find({});
-//             return listaLivros;
-//         } catch (error) {
-//             console.error(`Falha ao procurar livro: ${error}`);
-//             throw new Error("Erro ao buscar livros");
-//         }
-//     }
-// }
