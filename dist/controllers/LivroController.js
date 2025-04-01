@@ -8,9 +8,13 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.LivroController = void 0;
 const Livro_1 = require("../models/Livro");
+const mongoose_1 = __importDefault(require("mongoose"));
 var LivroController;
 (function (LivroController) {
     function livrosDisponiveis(req, res) {
@@ -37,10 +41,31 @@ var LivroController;
             }
             catch (error) {
                 console.error(`Falha ao cadastrar livro: ${error}`);
-                res.status(500).json({ message: "Erro ao buscar livros" });
+                res.status(500).json({ message: "Erro ao cadastrar livro" });
             }
         });
     }
     LivroController.inserirLivros = inserirLivros;
+    ;
+    function listarLivroPorId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const id = req.params.id;
+                if (!mongoose_1.default.Types.ObjectId.isValid(id)) {
+                    res.status(400).json({ message: 'ID inválido' });
+                }
+                const livroEncontrado = yield Livro_1.Livro.findById(id);
+                if (!livroEncontrado) {
+                    res.status(404).json({ message: 'Livro não encontrado' });
+                }
+                res.status(200).json({ message: 'livro encontrado com sucesso', livro: livroEncontrado });
+            }
+            catch (error) {
+                console.error(`Falha ao buscar livro: ${error}`);
+                res.status(500).json({ message: 'falha ao buscar livro' });
+            }
+        });
+    }
+    LivroController.listarLivroPorId = listarLivroPorId;
     ;
 })(LivroController || (exports.LivroController = LivroController = {}));
