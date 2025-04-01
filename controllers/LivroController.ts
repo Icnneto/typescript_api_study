@@ -60,7 +60,23 @@ export namespace LivroController {
             res.status(200).json({ message: 'livro atualizado com sucesso'})
         } catch (error) {
             console.error(`Falha ao atualizar livro: ${error}`);
-            res.status(500).json({ message: 'falha ao atualizar livro' })
+            res.status(500).json({ message: 'falha ao atualizar livro' });
+        }
+    };
+
+    export async function deletarLivros (req: Request, res: Response) {
+        try {
+            const livroParaDeletar: string = req.params.id;
+
+            if (!mongoose.Types.ObjectId.isValid(livroParaDeletar)) {
+                res.status(400).json({ message: 'ID inválido' });
+            };
+
+            await Livro.findByIdAndDelete(livroParaDeletar);
+            res.status(200).json({ message: 'livro deletado com sucesso'})
+        } catch (error) {
+            console.error(`Falha ao deletar livro: ${error}`);
+            res.status(500).json({ message: 'falha ao deletar livro' });
         }
     };
 }

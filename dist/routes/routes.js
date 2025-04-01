@@ -7,4 +7,5 @@ router.get('/livros', LivroController_1.LivroController.livrosDisponiveis);
 router.get('/livros/:id', LivroController_1.LivroController.listarLivroPorId);
 router.post('/livros', LivroController_1.LivroController.inserirLivros);
 router.put('/livros/:id', LivroController_1.LivroController.atualizarLivro);
+router.delete('/livros/:id', LivroController_1.LivroController.deletarLivros);
 exports.default = router;

@@ -88,4 +88,23 @@ var LivroController;
     }
     LivroController.atualizarLivro = atualizarLivro;
     ;
+    function deletarLivros(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const livroParaDeletar = req.params.id;
+                if (!mongoose_1.default.Types.ObjectId.isValid(livroParaDeletar)) {
+                    res.status(400).json({ message: 'ID inválido' });
+                }
+                ;
+                yield Livro_1.Livro.findByIdAndDelete(livroParaDeletar);
+                res.status(200).json({ message: 'livro deletado com sucesso' });
+            }
+            catch (error) {
+                console.error(`Falha ao deletar livro: ${error}`);
+                res.status(500).json({ message: 'falha ao deletar livro' });
+            }
+        });
+    }
+    LivroController.deletarLivros = deletarLivros;
+    ;
 })(LivroController || (exports.LivroController = LivroController = {}));
